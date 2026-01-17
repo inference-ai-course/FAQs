@@ -23,8 +23,36 @@ While Central Processing Units (CPUs) are capable of matrix multiplication, Grap
 
 Since every element in the output matrix can be calculated independently, GPUs can compute thousands of these operations at once, whereas a CPU processes them one by one or in small batches.
 
-### 2. Memory Bandwidth
-AI models require moving massive amounts of data (weights) from memory to the compute cores. GPUs utilize High Bandwidth Memory (HBM) which offers significantly higher throughput (TB/s) compared to standard system RAM (GB/s) used by CPUs, preventing the "memory wall" bottleneck.
+### 2. Memory Bandwidth & The "Memory Wall"
+AI models require moving massive amounts of data from memory to the compute cores. While compute power (FLOPs) has grown exponentially, memory speed has not kept pace, leading to the "Memory Wall."
+
+#### Influence on Performance & The Roofline Model
+For Large Language Models (LLMs), performance is often analyzed using the **[Roofline Model](https://en.wikipedia.org/wiki/Roofline_model)**, which visualizes the trade-off between compute speed and memory bandwidth.
+
+1.  **Memory-Bound ( The "Slanted" Roof)**:
+    -   Occurs when **Arithmetic Intensity** (FLOPs per byte accessed) is low.
+    -   The GPU spends most of its time waiting for data to arrive from memory.
+    -   **Example**: **LLM Inference (Generation)**. Generating text token-by-token requires loading billions of weights just to compute a single token. The GPU cores sit idle, limited by how fast HBM can deliver data.
+2.  **Compute-Bound (The "Flat" Roof)**:
+    -   Occurs when Arithmetic Intensity is high.
+    -   The GPU is maximizing its math capability (utilizing Tensor Cores), and memory bandwidth is sufficient.
+    -   **Example**: **Training** or **Large Batch Processing**. Here, the same weights are reused across a large batch of data, keeping the compute cores fully saturated.
+
+**Key Insight**: High Bandwidth Memory (HBM) moves the "slanted" part of the roof up, allowing memory-bound tasks (like ChatGPT generating an answer) to run faster.
+
+**Further Reading on Roofline**:
+-   **[NERSC: Roofline Performance Model](https://docs.nersc.gov/tools/performance/roofline/)**: A comprehensive guide from NERSC's supercomputing center.
+-   **[arXiv: Hierarchical Roofline Analysis for Deep Learning](https://arxiv.org/abs/2009.05257)**: A technical paper on applying this to NVIDIA GPUs and AI.
+
+#### The KV Cache
+In autoregressive models (like GPT), generating the next token requires paying attention to all previous tokens.
+-   **The Problem**: Re-calculating the Key (K) and Value (V) matrices for the entire history at every step is wasteful.
+-   **The Solution**: We cache these vectors in GPU memory. This is the **KV Cache**.
+-   **The Cost**: As the conversation (context) gets longer, the KV Cache grows huge (gigabytes in size). Loading this massive cache from memory for every step becomes the primary bottleneck. Techniques like **[FlashAttention](https://arxiv.org/abs/2312.11918)** and **[PagedAttention (vLLM)](https://arxiv.org/abs/2309.06180)** are designed specifically to optimize this memory access.
+
+**Further Reading**:
+-   **[NVIDIA: Optimizing Inference for Long Context](https://developer.nvidia.com/blog/optimizing-inference-for-long-context-and-large-batch-sizes-with-nvfp4-kv-cache)**: Deep dive into how KV cache impacts performance and how quantization helps.
+-   **[BentoML: What is GPU Memory and Why it Matters](https://www.bentoml.com/blog/what-is-gpu-memory-and-why-it-matters-for-llm-inference)**: A practical guide to VRAM, bandwidth, and how they affect throughput and latency.
 
 ## What is CUDA?
 **Compute Unified Device Architecture (CUDA)** is a parallel computing platform and programming model created by NVIDIA. Before CUDA (released in 2006), GPUs were "fixed-function" devices dedicated solely to rendering graphics. CUDA unlocked the ability to use the GPU for **General Purpose Computing on Graphics Processing Units (GPGPU)**.

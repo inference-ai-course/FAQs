@@ -103,7 +103,7 @@ COPY . .
 # Command to run when starting the container
 CMD ["python", "main.py"]
 ```
-- *Reference*: [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/)
+  - *Reference*: [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/)
 
 **Health Check & Resource Monitoring:**
 - **Verify Docker Daemon**: Run `docker info` to ensure the Docker daemon is running and reachable.
@@ -111,7 +111,6 @@ CMD ["python", "main.py"]
   - *Expected Output*: "Hello from Docker! This message shows that your installation appears to be working correctly."
 - **List Running Containers**: Run `docker ps` to see currently active containers and their port mappings.
   - *Example Output*: `CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES`
-  - *Reference*: [Docker CLI Reference](https://docs.docker.com/engine/reference/commandline/cli/)
+  - *Reference*: [Docker CLI Reference](https://docs.docker.com/reference/cli/docker/)
 - **Monitor Container Resources**: Run `docker stats` to see a live stream of CPU, Memory, and Network usage for each running container.
   - *Instruction*: Press `Ctrl+C` to exit the live stream.
-

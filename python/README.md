@@ -118,6 +118,6 @@ dependencies:
 *   **Creating**: `conda env create -f environment.yml`
 
 ### 4. Common Pitfalls
-*   **GPU Drivers**: Installing Deep Learning libraries (PyTorch/TensorFlow) often requires matching the library version to your specific [CUDA](https://developer.nvidia.com/cuda-zone) (Nvidia driver) version. Always check the official installation command generators on the library websites.
+*   **GPU Drivers**: Installing Deep Learning libraries (PyTorch/TensorFlow) often requires matching the library version to your specific [CUDA](https://developer.nvidia.com/cuda) (Nvidia driver) version. Always check the official installation command generators on the library websites.
 *   **Circular Dependencies**: Occurs when Package A depends on Package B, which depends on Package A. Modern resolvers in pip and conda usually catch this, but it can sometimes require manual intervention.
 

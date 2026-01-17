@@ -25,7 +25,7 @@ The FAQs cover three major topics. Click on the sub-topics to navigate directly 
 *   [The Role of Matrix Multiplication in AI](gpu-cuda/README.md#the-role-of-matrix-multiplication-in-ai)
 *   [Why GPUs are Superior for AI](gpu-cuda/README.md#why-gpus-are-superior-for-ai)
     *   [Massive Parallelism vs. Sequential Processing](gpu-cuda/README.md#1-massive-parallelism-vs-sequential-processing)
-    *   [Memory Bandwidth](gpu-cuda/README.md#2-memory-bandwidth)
+    *   [Memory Bandwidth & The "Memory Wall"](gpu-cuda/README.md#2-memory-bandwidth--the-memory-wall)
 *   [What is CUDA?](gpu-cuda/README.md#what-is-cuda)
     *   [Understanding Pipelines: Graphics vs. AI](gpu-cuda/README.md#understanding-pipelines-graphics-vs-ai)
     *   [How CUDA Bridges the Gap](gpu-cuda/README.md#how-cuda-bridges-the-gap)
